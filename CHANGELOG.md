@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A check decodes the URL, title, description and scores of an advisory
+  only when the report shows it, so it no longer decodes advisories a
+  report leaves out. The index format changes; an index written by 0.1.0
+  is rebuilt on the next check.
+
 ## 0.1.0 (2026-10-25)
 
 - First release: `check`, `update`, `download`, `stats` and `version`,
