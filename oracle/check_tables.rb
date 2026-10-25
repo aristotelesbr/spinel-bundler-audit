@@ -46,5 +46,9 @@ rows("ip_cases.txt").each do |line|
   expect(line, internal, SUBNETS.any? { |subnet| subnet.include?(ip) }.to_s)
 end
 
+expect("release of 1.0.rc1", "1.0", Gem::Version.new("1.0.rc1").release.to_s)
+expect("bump of 2.1.3", "2.2", Gem::Version.new("2.1.3").bump.to_s)
+expect("spelling of 4.0.0-beta.2", "4.0.0.pre.beta.2", Gem::Version.new("4.0.0-beta.2").to_s)
+
 puts "#{$checked - $failures}/#{$checked} table rows match the real libraries"
 exit($failures.zero? ? 0 : 1)
