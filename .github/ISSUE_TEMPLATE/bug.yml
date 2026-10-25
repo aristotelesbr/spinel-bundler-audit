@@ -1,0 +1,23 @@
+name: Bug
+description: A crash, a wrong install, or anything else that isn't a difference from bundler-audit
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected and what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Version and platform
+      placeholder: spinel-bundler-audit 0.1.0, macos-arm64, macOS 15
+    validations:
+      required: true

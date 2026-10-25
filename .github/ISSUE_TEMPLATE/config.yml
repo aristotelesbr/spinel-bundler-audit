@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: A vulnerability in spinel-bundler-audit
+    url: https://github.com/aristotelesbr/spinel-bundler-audit/security/advisories/new
+    about: Report it privately, not in an issue.
+  - name: A missing or wrong advisory for a gem
+    url: https://github.com/rubysec/ruby-advisory-db
+    about: Advisories come from ruby-advisory-db.
