@@ -1,0 +1,22 @@
+== checksums.lock
+source GEM https://rubygems.org/
+gem actionpack-7.0.0
+gem rack-2.2.3
+== platforms.lock
+source GEM https://rubygems.org/
+gem nokogiri-1.16.0
+gem nokogiri-1.16.0-arm64-darwin
+gem nokogiri-1.16.0-x86_64-linux
+gem rails-7.1.0.rc1
+== sources.lock
+source GIT git://github.com/x/y.git
+source GEM http://rubygems.org/ http://a.example.com/
+gem rack-2.2.3
+gem webrick-1.7.0
+gem y-0.1.0
+gem zeitwerk-2.0.0
+== path (inline)
+source PATH engines/blog
+source GEM https://rubygems.org/
+gem blog-0.1.0
+gem rack-2.2.3

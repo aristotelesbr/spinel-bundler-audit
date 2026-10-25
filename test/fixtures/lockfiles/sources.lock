@@ -1,0 +1,25 @@
+GIT
+  remote: git://github.com/x/y.git
+  revision: abc
+  specs:
+    y (0.1.0)
+
+GEM
+  remote: http://a.example.com/
+  remote: http://rubygems.org
+  specs:
+    zeitwerk (2.0.0)
+    rack (2.2.3)
+      webrick (>= 1.0)
+    rack (2.2.3)
+    webrick (1.7.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rack
+  y!
+
+BUNDLED WITH
+   2.6.2

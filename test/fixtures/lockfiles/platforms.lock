@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    nokogiri (1.16.0)
+    nokogiri (1.16.0-x86_64-linux)
+    nokogiri (1.16.0-arm64-darwin)
+    rails (7.1.0.rc1)
+
+PLATFORMS
+  arm64-darwin
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  nokogiri
+  rails
+
+BUNDLED WITH
+   2.6.2
