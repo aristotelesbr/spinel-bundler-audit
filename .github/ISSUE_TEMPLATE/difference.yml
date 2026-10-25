@@ -1,0 +1,48 @@
+name: Difference from bundler-audit
+description: spinel-bundler-audit answers differently from bundler-audit 0.9.3
+labels: [difference]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Differences already listed under "Known differences" in the README are intended.
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      description: The exact command, run the same way with both tools.
+      placeholder: spinel-bundler-audit check -F json
+    validations:
+      required: true
+  - type: textarea
+    id: lockfile
+    attributes:
+      label: Gemfile.lock
+      description: The smallest lockfile that shows the difference, or a link to it.
+      render: text
+  - type: textarea
+    id: bundler-audit
+    attributes:
+      label: bundler-audit 0.9.3 output and exit status
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: ours
+    attributes:
+      label: spinel-bundler-audit output and exit status
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: database
+    attributes:
+      label: ruby-advisory-db commit
+      description: "`git -C ~/.local/share/ruby-advisory-db rev-parse --short HEAD`"
+  - type: input
+    id: version
+    attributes:
+      label: Version and platform
+      placeholder: spinel-bundler-audit 0.1.0, linux-x86_64
+    validations:
+      required: true
