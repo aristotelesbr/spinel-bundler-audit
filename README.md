@@ -21,7 +21,7 @@ and puts the executable in `~/.local/bin`. To pick a release or another
 directory:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/aristotelesbr/spinel-bundler-audit/main/install.sh | VERSION=0.1.0 INSTALL_DIR=/usr/local/bin sh
+curl -fsSL https://raw.githubusercontent.com/aristotelesbr/spinel-bundler-audit/main/install.sh | VERSION=0.1.0 INSTALL_DIR=~/bin sh
 ```
 
 The archives are also on the
