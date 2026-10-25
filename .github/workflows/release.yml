@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         include:
-          # The oldest Ubuntu runner, so the binary needs glibc 2.35, not 2.39.
+          # The oldest Ubuntu runner: the binary needs glibc 2.34, not 2.39.
           - os: ubuntu-22.04
             platform: linux-x86_64
           - os: ubuntu-22.04-arm

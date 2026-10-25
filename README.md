@@ -28,8 +28,8 @@ The archives are also on the
 [releases page](https://github.com/aristotelesbr/spinel-bundler-audit/releases).
 
 No Ruby installation is needed to run it. The binaries run on macOS 11 or
-newer on Apple Silicon, and on Linux with glibc 2.35 or newer (Ubuntu
-22.04, Debian 12 and later).
+newer on Apple Silicon, and on Linux with glibc 2.34 or newer (Ubuntu
+22.04, Debian 12, RHEL 9 and its rebuilds, Amazon Linux 2023, and later).
 
 ## Usage
 
