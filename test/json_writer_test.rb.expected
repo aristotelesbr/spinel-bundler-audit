@@ -1,0 +1,17 @@
+{"text":"quote\" back\\ nl\n tab\t ctl\u0001 é /","empty":[],"none":{},"numbers":[1,2.5],"nested":{"k":null,"list":["a","b"]}}
+{
+  "text": "quote\" back\\ nl\n tab\t ctl\u0001 é /",
+  "empty": [],
+  "none": {},
+  "numbers": [
+    1,
+    2.5
+  ],
+  "nested": {
+    "k": null,
+    "list": [
+      "a",
+      "b"
+    ]
+  }
+}
