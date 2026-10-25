@@ -1,0 +1,4 @@
+# spinel-bundler-audit: an alternative to bundler-audit, compiled with Spinel.
+[package]
+name = "spinel_bundler_audit"
+version = "0.1.0"
