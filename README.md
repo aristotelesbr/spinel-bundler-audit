@@ -11,25 +11,31 @@ status.
 
 ## Install
 
+macOS (Apple Silicon) and Linux (x86_64, arm64):
+
 ```sh
 curl -fsSL https://raw.githubusercontent.com/aristotelesbr/spinel-bundler-audit/main/install.sh | sh
 ```
 
-[`install.sh`](install.sh) downloads the latest release for Linux x86_64,
-Linux arm64 or macOS arm64, checks it against the release's `SHA256SUMS`
-and puts the executable in `~/.local/bin`. To pick a release or another
-directory:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/aristotelesbr/spinel-bundler-audit/main/install.sh | VERSION=0.1.0 INSTALL_DIR=~/bin sh
-```
-
-The archives are also on the
+The script picks the build for your machine, checks it against the
+release's `SHA256SUMS` and installs it in `~/.local/bin` (set
+`INSTALL_DIR` or `VERSION` to change that). No Ruby needed. It runs on
+macOS 11 or newer, and on Linux with glibc 2.34 or newer (Ubuntu 22.04,
+Debian 12, RHEL 9, Amazon Linux 2023 and later). The archives are on the
 [releases page](https://github.com/aristotelesbr/spinel-bundler-audit/releases).
 
-No Ruby installation is needed to run it. The binaries run on macOS 11 or
-newer on Apple Silicon, and on Linux with glibc 2.34 or newer (Ubuntu
-22.04, Debian 12, RHEL 9 and its rebuilds, Amazon Linux 2023, and later).
+### In CI or from a coding agent
+
+The same command runs unattended and prints a line or two. Update the
+database once, then check as often as needed:
+
+```sh
+spinel-bundler-audit update
+spinel-bundler-audit check
+```
+
+When an agent reads the report, keep the default text format: the json
+report of the same lockfile is about four times as many tokens.
 
 ## Usage
 
