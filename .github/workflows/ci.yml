@@ -13,6 +13,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    env:
+      # Binaries run on every Apple Silicon Mac, not only on the runner's macOS.
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
     steps:
       - uses: actions/checkout@v4
 
@@ -26,7 +29,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.spinel
-          key: spinel-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('SPINEL_REVISION') }}
+          key: spinel-${{ matrix.os }}-${{ env.MACOSX_DEPLOYMENT_TARGET }}-${{ hashFiles('SPINEL_REVISION') }}
 
       - name: Build Spinel
         if: steps.spinel.outputs.cache-hit != 'true'
