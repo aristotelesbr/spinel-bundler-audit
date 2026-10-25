@@ -1,3 +1,5 @@
+require "fileutils"
+
 module SpinelBundlerAudit
   # Every advisory of the database in one file, so a check reads one file
   # instead of parsing a YAML file per advisory. It is tied to the commit
@@ -100,9 +102,7 @@ module SpinelBundlerAudit
     end
 
     def self.write(path, text)
-      dir = File.dirname(path)
-      Dir.mkdir(File.dirname(dir)) unless File.directory?(File.dirname(dir))
-      Dir.mkdir(dir) unless File.directory?(dir)
+      FileUtils.mkdir_p(File.dirname(path))
       temporary = "#{path}.#{Process.pid}"
       File.write(temporary, text)
       File.rename(temporary, path)
