@@ -1,0 +1,8 @@
+no git checkout: true
+built: true
+rack: 2 advisories identical to YAML
+nokogiri: 1 advisories identical to YAML
+unknown gem: true
+case: rack
+stale after commit change: true
+packed ref: true
