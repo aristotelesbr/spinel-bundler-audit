@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-10-25)
 
 - First release: `check`, `update`, `download`, `stats` and `version`,
   compatible with bundler-audit 0.9.3.
