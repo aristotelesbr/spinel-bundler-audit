@@ -268,6 +268,18 @@ check("download existing", ["download", DB])
   warn "DIFF #{name}:\n  < #{results[0].inspect[0, 400]}\n  > #{results[1].inspect[0, 400]}"
 end
 
+# 8. Real lockfiles: the open-source apps of oracle/APPS, as
+# oracle/fetch-apps.sh downloads them.
+File.readlines(File.join(ROOT, "oracle/APPS")).each do |line|
+  name = line.split.first
+  app = File.join(ROOT, "tmp/apps", name)
+  next unless File.directory?(app)
+
+  check("app #{name}", ["check"], dir: app)
+  check("app #{name} verbose", ["check", "-v"], dir: app)
+  check("app #{name} json", ["check", "-F", "json"], dir: app)
+end
+
 puts "#{$count - $failures.size}/#{$count} cases identical"
 puts "failing (first 20): #{$failures.first(20).join(", ")}" unless $failures.empty?
 exit($failures.empty? ? 0 : 1)

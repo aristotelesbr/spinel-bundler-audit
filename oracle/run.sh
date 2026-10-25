@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Compares build/bin/spinel-bundler-audit with bundler-audit 0.9.3 on the
-# ruby-advisory-db commit in oracle/DB_REVISION.
+# ruby-advisory-db commit in oracle/DB_REVISION, and on the lockfiles of the
+# open-source apps in oracle/APPS.
 #
 #   oracle/run.sh                    # all cases
 #   ORACLE_NO_TTY=1 oracle/run.sh    # without the terminal cases (CI)
@@ -20,5 +21,7 @@ bundle-audit version | grep -q "bundler-audit 0.9.3" || {
   echo "oracle/run.sh needs bundler-audit 0.9.3 (gem install bundler-audit -v 0.9.3)" >&2
   exit 1
 }
+
+"$root/oracle/fetch-apps.sh"
 
 ORACLE_DB=$db ruby "$root/oracle/compare.rb"
