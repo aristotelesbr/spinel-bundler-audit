@@ -33,9 +33,11 @@ module SpinelBundlerAudit
       kind == "GIT"
     end
 
+    # Each remote goes first, as Bundler adds them: a source lists its
+    # remotes in the reverse of the lockfile's order.
     def add_remote(uri)
       uri = "#{uri}/" if rubygems? && !uri.end_with?("/")
-      @remotes << uri unless @remotes.include?(uri)
+      @remotes.unshift(uri) unless @remotes.include?(uri)
     end
   end
 
