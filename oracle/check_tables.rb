@@ -4,6 +4,8 @@
 #   ruby oracle/check_tables.rb
 require "bundler"
 require "ipaddr"
+require "json"
+require_relative "../test/fixtures/json_sample"
 
 $LOAD_PATH.unshift(File.expand_path("..", __dir__))
 require "spinel_bundler_audit"
@@ -64,6 +66,11 @@ Dir.glob(File.join(FIXTURES, "lockfiles", "*.lock")).sort.each do |path|
   end
   expect("#{name} remotes", remotes, ours.sources.flat_map(&:remotes))
 end
+
+data = { "text" => "quote\" back\\ nl\n tab\t ctl\u0001 é /", "empty" => [], "none" => {},
+         "numbers" => [1, 2.5], "nested" => { "k" => nil, "list" => ["a", "b"] } }
+expect("compact JSON", JSON.generate(data), json_sample(SpinelBundlerAudit::JsonWriter.new(false)))
+expect("pretty JSON", JSON.pretty_generate(data), json_sample(SpinelBundlerAudit::JsonWriter.new(true)))
 
 puts "#{$checked - $failures}/#{$checked} table rows match the real libraries"
 exit($failures.zero? ? 0 : 1)
