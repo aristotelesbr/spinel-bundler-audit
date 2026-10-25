@@ -2,7 +2,11 @@
 # so no expectation in the unit tests is made up. Runs under CRuby:
 #
 #   ruby oracle/check_tables.rb
+require "bundler"
 require "ipaddr"
+
+$LOAD_PATH.unshift(File.expand_path("..", __dir__))
+require "spinel_bundler_audit"
 
 FIXTURES = File.expand_path("../test/fixtures", __dir__)
 ORDER = { "<" => -1, "=" => 0, ">" => 1 }.freeze
@@ -49,6 +53,17 @@ end
 expect("release of 1.0.rc1", "1.0", Gem::Version.new("1.0.rc1").release.to_s)
 expect("bump of 2.1.3", "2.2", Gem::Version.new("2.1.3").bump.to_s)
 expect("spelling of 4.0.0-beta.2", "4.0.0.pre.beta.2", Gem::Version.new("4.0.0-beta.2").to_s)
+
+Dir.glob(File.join(FIXTURES, "lockfiles", "*.lock")).sort.each do |path|
+  name = File.basename(path)
+  bundler = Bundler::LockfileParser.new(File.read(path))
+  ours = SpinelBundlerAudit::Lockfile.read(path)
+  expect("#{name} gems", bundler.specs.map(&:full_name), ours.gems.map(&:full_name))
+  remotes = bundler.sources.flat_map do |source|
+    source.respond_to?(:remotes) ? source.remotes.map(&:to_s) : [source.uri.to_s]
+  end
+  expect("#{name} remotes", remotes, ours.sources.flat_map(&:remotes))
+end
 
 puts "#{$checked - $failures}/#{$checked} table rows match the real libraries"
 exit($failures.zero? ? 0 : 1)
