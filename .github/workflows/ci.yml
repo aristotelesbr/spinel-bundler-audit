@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    steps:
+      - uses: actions/checkout@v4
+
+      # Building Spinel runs Ruby, and the oracle needs it too.
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+
+      - name: Cache Spinel
+        id: spinel
+        uses: actions/cache@v4
+        with:
+          path: ~/.spinel
+          key: spinel-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('SPINEL_REVISION') }}
+
+      - name: Build Spinel
+        if: steps.spinel.outputs.cache-hit != 'true'
+        run: .github/scripts/install-spinel.sh ~/.spinel
+
+      - run: echo "$HOME/.spinel/bin" >> "$GITHUB_PATH"
+
+      - name: Unit tests
+        run: spin test
+
+      - name: Build
+        run: spin build
+
+      - name: Install bundler-audit 0.9.3
+        run: gem install bundler-audit -v 0.9.3
+
+      - name: Check test tables
+        run: ruby oracle/check_tables.rb
+
+      - name: Compare with bundler-audit
+        run: oracle/run.sh
+        env:
+          ORACLE_NO_TTY: "1"
