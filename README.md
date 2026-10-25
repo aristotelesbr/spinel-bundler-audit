@@ -94,7 +94,7 @@ spin build                   # build/bin/spinel-bundler-audit
 spin test                    # compiled unit tests
 ruby oracle/check_tables.rb  # test tables against RubyGems, Bundler, IPAddr, JSON
 oracle/run.sh                # comparison with bundler-audit 0.9.3
-bench/bench.sh               # timings against bundler-audit, with hyperfine
+ruby bench/experiment.rb     # time and memory against bundler-audit (bench/README.md)
 ```
 
 The Spinel commit used for builds is in `SPINEL_REVISION`.
