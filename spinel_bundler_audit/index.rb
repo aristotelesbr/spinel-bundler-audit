@@ -10,8 +10,14 @@ module SpinelBundlerAudit
   # "dir<TAB>offset<TAB>length" line per gem directory, then the records
   # (one line per advisory, grouped by gem; offsets in bytes into them).
   # A check reads the table and then only the records of its gems.
+  #
+  # A record starts with what a check reads for every advisory of a locked
+  # gem (the file, the version ranges and the identifiers); the fields only
+  # a report shows follow, and are decoded for the advisories it shows.
   class Index
-    HEADER = "spinel-bundler-audit index 1"
+    HEADER = "spinel-bundler-audit index 2"
+    CHECK_FIELDS = ["cve", "osvdb", "ghsa"].freeze
+    REPORT_FIELDS = (Advisory::TEXT_FIELDS - CHECK_FIELDS).freeze
     NIL = "\\N"
     # A JSON column holding this is the JSON string of the text column.
     SAME = "\\S"
@@ -110,9 +116,9 @@ module SpinelBundlerAudit
 
     def self.record(file, advisory)
       fields = [file]
-      Advisory::TEXT_FIELDS.each { |field| fields << encode(advisory.texts[field]) }
       fields << encode(advisory.unaffected_texts.join(LIST_SEPARATOR))
       fields << encode(advisory.patched_texts.join(LIST_SEPARATOR))
+      (CHECK_FIELDS + REPORT_FIELDS).each { |field| fields << encode(advisory.texts[field]) }
       Advisory::JSON_FIELDS.each do |field|
         literal = advisory.json(field)
         text = advisory.texts[field]
@@ -165,25 +171,50 @@ module SpinelBundlerAudit
     private
 
     def advisory(dir, line)
-      fields = line.split("\t", -1)
+      fields = line.split("\t", 4 + CHECK_FIELDS.size)
       file = fields[0]
       texts = {}
-      Advisory::TEXT_FIELDS.each_with_index { |field, i| texts[field] = Index.decode(fields[1 + i]) }
-      base = 1 + Advisory::TEXT_FIELDS.size
-      unaffected = Index.list(fields[base])
-      patched = Index.list(fields[base + 1])
-      json = {}
-      Advisory::JSON_FIELDS.each_with_index do |field, i|
-        raw = fields[base + 2 + i]
-        json[field] = Index.decode(raw) unless raw == Index::SAME
-      end
-      Advisory.new(File.join(@database_path, "gems", dir, file), File.basename(file, ".yml"),
-                   texts, json, unaffected, patched)
+      CHECK_FIELDS.each_with_index { |field, i| texts[field] = Index.decode(fields[3 + i]) }
+      Entry.new(File.join(@database_path, "gems", dir, file), File.basename(file, ".yml"),
+                texts, fields[3 + CHECK_FIELDS.size], Index.list(fields[1]), Index.list(fields[2]))
     end
 
     def self.list(value)
       text = decode(value)
       text.nil? || text.empty? ? [] : text.split(LIST_SEPARATOR)
+    end
+  end
+
+  # An advisory read from the index. The fields only a report shows stay
+  # encoded in report_fields until one of them is asked for.
+  class Index::Entry < Advisory
+    def initialize(path, id, texts, report_fields, unaffected, patched)
+      super(path, id, texts, {}, unaffected, patched)
+      @report_fields = report_fields
+    end
+
+    def texts
+      decode_report_fields
+      @texts
+    end
+
+    def json_literals
+      decode_report_fields
+      @json_literals
+    end
+
+    private
+
+    def decode_report_fields
+      return if @report_fields.nil?
+
+      fields = @report_fields.split("\t", -1)
+      @report_fields = nil
+      Index::REPORT_FIELDS.each_with_index { |field, i| @texts[field] = Index.decode(fields[i]) }
+      Advisory::JSON_FIELDS.each_with_index do |field, i|
+        raw = fields[Index::REPORT_FIELDS.size + i]
+        @json_literals[field] = Index.decode(raw) unless raw == Index::SAME
+      end
     end
   end
 end
