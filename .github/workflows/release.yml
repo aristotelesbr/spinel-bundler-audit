@@ -34,7 +34,7 @@ jobs:
 
       - name: Cache Spinel
         id: spinel
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.spinel
           key: spinel-${{ matrix.os }}-${{ env.MACOSX_DEPLOYMENT_TARGET }}-${{ hashFiles('SPINEL_REVISION') }}
