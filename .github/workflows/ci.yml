@@ -17,7 +17,7 @@ jobs:
       # Binaries run on every Apple Silicon Mac, not only on the runner's macOS.
       MACOSX_DEPLOYMENT_TARGET: "11.0"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Building Spinel runs Ruby, and the oracle needs it too.
       - uses: ruby/setup-ruby@v1
