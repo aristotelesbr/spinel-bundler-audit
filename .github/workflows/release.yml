@@ -62,7 +62,7 @@ jobs:
           cp build/bin/spinel-bundler-audit README.md LICENSE "$name/"
           tar czf "$name.tar.gz" "$name"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.platform }}
           path: spinel-bundler-audit-*.tar.gz
