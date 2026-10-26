@@ -14,7 +14,7 @@ module SpinelBundlerAudit
     TEXT_FIELDS = ["url", "title", "description", "cve", "osvdb", "ghsa", "cvss_v2", "cvss_v3"].freeze
 
     attr_reader :path, :id, :texts, :json_literals, :unaffected_texts, :patched_texts,
-                :cvss_v2, :cvss_v3, :patched_versions, :unaffected_versions
+                :patched_versions, :unaffected_versions
 
     def self.load(path)
       text = File.read(path)
@@ -46,34 +46,40 @@ module SpinelBundlerAudit
       @json_literals = json
       @unaffected_texts = unaffected
       @patched_texts = patched
-      @cvss_v2 = texts["cvss_v2"]&.to_f
-      @cvss_v3 = texts["cvss_v3"]&.to_f
       @unaffected_versions = unaffected.map { |range| Requirement.new(range) }
       @patched_versions = patched.map { |range| Requirement.new(range) }
     end
 
     def url
-      @texts["url"]
+      texts["url"]
     end
 
     def title
-      @texts["title"]
+      texts["title"]
     end
 
     def description
-      @texts["description"]
+      texts["description"]
     end
 
     def cve
-      @texts["cve"]
+      texts["cve"]
     end
 
     def osvdb
-      @texts["osvdb"]
+      texts["osvdb"]
     end
 
     def ghsa
-      @texts["ghsa"]
+      texts["ghsa"]
+    end
+
+    def cvss_v2
+      texts["cvss_v2"]&.to_f
+    end
+
+    def cvss_v3
+      texts["cvss_v3"]&.to_f
     end
 
     def self.text(value)    = value.nil? ? nil : value.to_s
@@ -98,10 +104,10 @@ module SpinelBundlerAudit
     # A field missing from json_literals is the JSON string of its text
     # (spelled only when a JSON report asks for it).
     def json(field)
-      literal = @json_literals[field]
+      literal = json_literals[field]
       return literal if literal
 
-      text = @texts[field]
+      text = texts[field]
       text.nil? ? "null" : JsonWriter.string(text)
     end
 

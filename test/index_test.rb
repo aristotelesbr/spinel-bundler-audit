@@ -88,6 +88,13 @@ Dir.mktmpdir do |tmp|
     yaml.zip(indexed).each { |a, b| compare(a, b) }
     puts "#{gem}: #{indexed.size} advisories identical to YAML"
   end
+  # An entry decodes the fields only a report shows on first use, whether
+  # a JSON report or a text one asks first.
+  yaml = SpinelBundlerAudit::Advisory.load(File.join(db, "gems", "rack", "CVE-2022-30122.yml"))
+  json_first = index.advisories_for("rack").first
+  same("json first", yaml.json("description"), json_first.json("description"))
+  compare(yaml, json_first)
+  puts "json read first: identical"
   puts "unknown gem: #{index.advisories_for('rails').nil?}"
   puts "case: #{index.directory_like('RACK')}"
 
