@@ -25,7 +25,7 @@ jobs:
       # Binaries run on every Apple Silicon Mac, not only on the runner's macOS.
       MACOSX_DEPLOYMENT_TARGET: "11.0"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Building Spinel runs Ruby, and the oracle needs it too.
       - uses: ruby/setup-ruby@v1
@@ -34,7 +34,7 @@ jobs:
 
       - name: Cache Spinel
         id: spinel
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.spinel
           key: spinel-${{ matrix.os }}-${{ env.MACOSX_DEPLOYMENT_TARGET }}-${{ hashFiles('SPINEL_REVISION') }}
@@ -62,7 +62,7 @@ jobs:
           cp build/bin/spinel-bundler-audit README.md LICENSE "$name/"
           tar czf "$name.tar.gz" "$name"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.platform }}
           path: spinel-bundler-audit-*.tar.gz
@@ -71,7 +71,7 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           merge-multiple: true
 
