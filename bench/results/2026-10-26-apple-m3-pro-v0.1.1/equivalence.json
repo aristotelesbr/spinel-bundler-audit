@@ -1,0 +1,38 @@
+[
+  {
+    "case": "clean",
+    "identical": true,
+    "exit_status": 0,
+    "stdout_bytes": 25
+  },
+  {
+    "case": "mastodon",
+    "identical": true,
+    "exit_status": 1,
+    "stdout_bytes": 254
+  },
+  {
+    "case": "discourse",
+    "identical": true,
+    "exit_status": 1,
+    "stdout_bytes": 277
+  },
+  {
+    "case": "forem",
+    "identical": true,
+    "exit_status": 1,
+    "stdout_bytes": 11065
+  },
+  {
+    "case": "synthetic",
+    "identical": true,
+    "exit_status": 1,
+    "stdout_bytes": 264881
+  },
+  {
+    "case": "forem-json",
+    "identical": true,
+    "exit_status": 1,
+    "stdout_bytes": 59578
+  }
+]
