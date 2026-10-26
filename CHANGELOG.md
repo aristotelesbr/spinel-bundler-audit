@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 (2026-10-25)
 
 - A check decodes the URL, title, description and scores of an advisory
   only when the report shows it, so it no longer decodes advisories a

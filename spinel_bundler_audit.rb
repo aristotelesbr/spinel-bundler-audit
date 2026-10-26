@@ -1,5 +1,5 @@
 module SpinelBundlerAudit
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
 end
 
 require "spinel_bundler_audit/gem_version"
